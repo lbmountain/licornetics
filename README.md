@@ -37,13 +37,13 @@ By changing the `type` argument, the following parameters can be plotted:
 \
 Further options listed below can be used to modify the plot and plotted data:
 \
-**`area_correction`** corrects the parameters by the measured leaf area. Divide the Li-COR chamber size by the average leaf area of the samples (e.g. with a 2cm^2 chamber and an average leaf area of 0.64cm^2 it would be 2/0.64=3.125, so `area_correction = 3.125`).
+**`area_correction`** corrects the parameters by the measured leaf area. Divide the Li-COR chamber size by the average leaf area of the samples (e.g. with a 2cm^2^ chamber and an average leaf area of 0.64cm^2^ it would be 2/0.64=3.125, so `area_correction = 3.125`).
 \
 \
 **`timestamps`** adds vertical dotted lines to the plot (e.g. `timestamps = c(20, 40, 60)`).
 \
 \
-**`observations`** limits the range of the x axis. E.g. by setting `observations = c(16:70)` only observations (_obs_) from 16:70 would be shown.
+**`observations`** limits the range of the x axis. E.g. by setting `observations = c(16:70)` only observations (_obs_) from 16 to 70 would be shown.
 \
 \
 **`legend_title`** allows to change the legend title. Default title is "Genotype".
