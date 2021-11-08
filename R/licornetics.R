@@ -58,7 +58,9 @@ licornetics<- function(identifier,
 
       if(remove_outliers=="yes") {
         outliers<- boxplot(croplicor$WUE, plot=FALSE)$out
-        croplicor<- croplicor[-which(croplicor$WUE %in% outliers),]
+        if(!is_empty(outliers)){
+          croplicor<- croplicor[-which(croplicor$WUE %in% outliers),]
+        }
       }
 
 
