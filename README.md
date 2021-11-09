@@ -9,6 +9,7 @@ It can plot absolute or relative stomatal conductance, carbon assimilation and w
 Licornetics is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 \
 \
+\
 **How to use the licornetics package**
 \
 First, you need to download and install the package in R or R studio.
