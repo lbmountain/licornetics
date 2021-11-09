@@ -1,9 +1,12 @@
 ### Description
 
-**Plot physiological parameters measured using the Li-COR biosystems photosystem (optimized for the Li-6800).**
+**Plot physiological parameters measured using the Li-COR biosystems photosystem.**
 \
+This package enables easy visualization of physiological parameters measured with a Li-COR portable photosystem.
 \
-This package uses Excel sheet files (**.xlsx**) created by the Li-6800 system.
+It can plot absolute or relative stomatal conductance, carbon assimilation and water-use efficiency. Data from single files can be plotted as well as averaged data across several input files (with standard error bars) and different genotypes, species or conditions can be shown in one plot.
+\
+Licornetics is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 \
 \
 **How to use the licornetics package**
