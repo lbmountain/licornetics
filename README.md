@@ -12,7 +12,6 @@ First, you need to download and install the package in R or R studio.
 You can install it with the following code:
 ```yaml
 if (!require(devtools)) install.packages('devtools')
-library(devtools)
 devtools::install_github("lbmountain/licornetics")
 library(licornetics)
 ```
