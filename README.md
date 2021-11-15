@@ -8,6 +8,8 @@ It can plot absolute or relative stomatal conductance, carbon assimilation and w
 \
 Licornetics is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 \
+As output, a plot is generated using the `ggplot2` package which can therefore be used downstream with ggplot-based packages such as ggpubr. Colours are added based on a colourblind-friendly palette.
+\
 \
 \
 **How to use the licornetics package**
