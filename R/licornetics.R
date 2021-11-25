@@ -111,7 +111,7 @@ licornetics<- function(identifier,
               legend.justification="left",
               legend.box.margin = margin(c(-10)),
               legend.background = element_rect(fill=NA))+
-        labs(x="Time [min]", y=expression(paste("Absolute gsw [mol*m"^-2, "*s"^-1, "]")))
+        labs(x="Time [min]", y=expression(paste("Absolute g"[SW], "[mol*m"^-2, "*s"^-1, "]")))
     }
     else {
       #create df for vertical lines
@@ -133,7 +133,7 @@ licornetics<- function(identifier,
               legend.justification="left",
               legend.box.margin = margin(c(-10)),
               legend.background = element_rect(fill=NA))+
-        labs(x="Time [min]", y=expression(paste("Absolute gsw [mol*m"^-2, "*s"^-1, "]")))
+        labs(x="Time [min]", y=expression(paste("Absolute g"[SW], "[mol*m"^-2, "*s"^-1, "]")))
     }
   }
 
@@ -157,7 +157,7 @@ licornetics<- function(identifier,
                 legend.justification="left",
                 legend.box.margin = margin(c(-10)),
                 legend.background = element_rect(fill=NA))+
-          labs(x="Time [min]", y="Relative gsw [%]")
+          labs(x="Time [min]", y=expression(paste("Relative g"[SW], "[%]")))
       }
 
       else {
@@ -181,7 +181,7 @@ licornetics<- function(identifier,
                 legend.justification="left",
                 legend.box.margin = margin(c(-10)),
                 legend.background = element_rect(fill=NA))+
-          labs(x="Time [min]", y="Relative gsw [%]")
+          labs(x="Time [min]", y=expression(paste("Relative g"[SW], "[%]")))
       }
     }
 
