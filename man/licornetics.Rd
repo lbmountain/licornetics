@@ -10,6 +10,7 @@ licornetics(
   area_correction = 1,
   timestamps = NULL,
   observations = NULL,
+  y_axis_limits = NULL,
   legend_title = "Genotype",
   legend_labels = identifier,
   remove_outliers = "no"
@@ -24,7 +25,9 @@ licornetics(
 
 \item{timestamps}{Optionally add vertical lines to the plot as timeline indicators (e.g. 'c(20, 40, 60)').}
 
-\item{observations}{Crop the range of observations (time) you want to show (e.g. 'c(16:70)').}
+\item{observations}{Crop the range of observations (time) you want to show (e.g. '16:70').}
+
+\item{y_axis_limits}{Change the y axis limits (e.g. 'c(0,2)' with 0 being the lower and 2 the upper limit).}
 
 \item{legend_title}{Change the title of the legend. Default is set to "Genotype".}
 
