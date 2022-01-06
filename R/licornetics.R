@@ -105,7 +105,7 @@ licornetics<- function(identifier,
     ggplot(licorgeno, mapping=aes(x=obs, y=mean_gsw))+
       geom_errorbar(mapping=aes(ymin=mean_gsw-se_abs, ymax=mean_gsw+se_abs, colour=genotype), alpha=0.5, show.legend = F)+
       geom_point(aes(colour=genotype))+
-      geom_vline(timeline, mapping=aes(xintercept=mark), linetype="dotted")+
+      geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
       guides(colour=guide_legend(title=legend_title))+
       scale_colour_manual(values=colourblindpalette,
                           labels=legend_labels)+
@@ -128,7 +128,7 @@ licornetics<- function(identifier,
       ggplot(licorgeno, mapping=aes(x=obs, y=mean_relgsw))+
         geom_errorbar(mapping=aes(ymin=mean_relgsw - se_rel, ymax=mean_relgsw + se_rel, colour=genotype), alpha=0.5, show.legend = F)+
         geom_point(aes(colour=genotype))+
-        geom_vline(timeline, mapping=aes(xintercept=mark), linetype="dotted")+
+        geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
         scale_y_continuous(breaks=c(0, 0.25, 0.5, 0.75, 1), labels = c(0, 25, 50, 75, 100))+
         guides(colour=guide_legend(title=legend_title))+
         scale_colour_manual(values=colourblindpalette,
@@ -149,7 +149,7 @@ licornetics<- function(identifier,
         ggplot(licorgeno, mapping=aes(x=obs, y=mean_A))+
           geom_errorbar(mapping=aes(ymin=mean_A - se_A, ymax=mean_A + se_A, colour=genotype), alpha=0.5, show.legend = F)+
           geom_point(aes(colour=genotype))+
-          geom_vline(timeline, mapping=aes(xintercept=mark), linetype="dotted")+
+          geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
           guides(colour=guide_legend(title=legend_title))+
           scale_colour_manual(values=colourblindpalette,
                               labels=legend_labels)+
@@ -173,7 +173,7 @@ licornetics<- function(identifier,
           ggplot(licorgeno, mapping=aes(x=obs, y=mean_WUE))+
             geom_errorbar(mapping=aes(ymin=mean_WUE-se_WUE, ymax=mean_WUE+se_WUE, colour=genotype), alpha=0.5, show.legend = F)+
             geom_point(aes(colour=genotype))+
-            geom_vline(timeline, mapping=aes(xintercept=mark), linetype="dotted")+
+            geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
             guides(colour=guide_legend(title=legend_title))+
             scale_colour_manual(values=colourblindpalette,
                                 labels=legend_labels)+
