@@ -2,7 +2,7 @@
 #'
 #' Creates plots for physiological parameters measured using the Li-COR photosystem.
 #' @param identifier Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").
-#' @param type Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation) or "WUE" (water use efficiency).
+#' @param type Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation) or "WUE" (intrinsic water use efficiency).
 #' @param area_correction Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.
 #' @param timestamps Optionally add vertical lines to the plot as timeline indicators (e.g. 'c(20, 40, 60)').
 #' @param observations Crop the range of observations (time) you want to show (e.g. '16:70').
@@ -183,7 +183,7 @@ licornetics<- function(identifier,
                   legend.justification="left",
                   legend.box.margin = margin(c(-10)),
                   legend.background = element_rect(fill=NA))+
-            labs(x="Time [min]", y=expression(paste("WUE [mol(CO"[2], ") * mol(H"[2],"O)"^-1, "]")))
+            labs(x="Time [min]", y=expression(paste("iWUE [mol(CO"[2], ") * mol(H"[2],"O)"^-1, "]")))
         }
       }
     }
