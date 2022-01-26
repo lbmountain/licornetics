@@ -10,7 +10,8 @@
 #' @param legend_title Change the title of the legend. Default is set to "Genotype".
 #' @param legend_labels Change the labels within the legend. Default is set to the input given by the 'identifier' argument.
 #' @param remove_outliers Optionally remove boxplot outliers (based on data obtained by calculating A/gsw).
-#' @keywords physiology plot co2 assimilation li-cor stomatal conductance leaf kinetics wue water-use efficiency photosynthesis
+#' @param colours Colour palette name from the MetBrewer package. Default is set to "Isfahan1".
+#' @keywords physiology plot co2 assimilation li-cor stomatal conductance leaf kinetics wue water-use efficiency photosynthesis gas exchange
 #' @export
 
 licornetics<- function(identifier,
@@ -21,12 +22,15 @@ licornetics<- function(identifier,
                        y_axis_limits=NULL,
                        legend_title="Genotype",
                        legend_labels=identifier,
-                       remove_outliers="no") {
+                       remove_outliers="no",
+                       colours="Isfahan1") {
   ##load required packages
   if (!require(tidyverse)) install.packages('tidyverse')
   if (!require(readxl)) install.packages('readxl')
+  if (!require(MetBrewer)) install.packages('MetBrewer')
   library(tidyverse)
   library(readxl)
+  library(MetBrewer)
 
   licorall<- data.frame(obs=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA)
 
@@ -92,8 +96,8 @@ licornetics<- function(identifier,
   licorgeno$genotype <- ordered(licorgeno$genotype , levels=identifier)
 
 
-  ##set colourblind palette for plotting
-  colourblindpalette <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+  ##set colour palette for plotting
+  colourpalette <- met.brewer(colours)
 
 
   if (type=="gsw") {
@@ -107,7 +111,7 @@ licornetics<- function(identifier,
       geom_point(aes(colour=genotype))+
       geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
       guides(colour=guide_legend(title=legend_title))+
-      scale_colour_manual(values=colourblindpalette,
+      scale_colour_manual(values=colourpalette,
                           labels=legend_labels)+
       scale_y_continuous(limits = y_axis_limits)+
       theme_classic()+
@@ -131,7 +135,7 @@ licornetics<- function(identifier,
         geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
         scale_y_continuous(breaks=c(0, 0.25, 0.5, 0.75, 1), labels = c(0, 25, 50, 75, 100))+
         guides(colour=guide_legend(title=legend_title))+
-        scale_colour_manual(values=colourblindpalette,
+        scale_colour_manual(values=colourpalette,
                             labels=legend_labels)+
         theme_classic()+
         theme(legend.position = "bottom",
@@ -151,7 +155,7 @@ licornetics<- function(identifier,
           geom_point(aes(colour=genotype))+
           geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
           guides(colour=guide_legend(title=legend_title))+
-          scale_colour_manual(values=colourblindpalette,
+          scale_colour_manual(values=colourpalette,
                               labels=legend_labels)+
           scale_y_continuous(limits = y_axis_limits)+
           theme_classic()+
@@ -175,7 +179,7 @@ licornetics<- function(identifier,
             geom_point(aes(colour=genotype))+
             geom_vline(timeline, mapping=aes(xintercept=timestamps), linetype="dotted")+
             guides(colour=guide_legend(title=legend_title))+
-            scale_colour_manual(values=colourblindpalette,
+            scale_colour_manual(values=colourpalette,
                                 labels=legend_labels)+
             scale_y_continuous(limits = y_axis_limits)+
             theme_classic()+

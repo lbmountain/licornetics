@@ -13,13 +13,14 @@ licornetics(
   y_axis_limits = NULL,
   legend_title = "Genotype",
   legend_labels = identifier,
-  remove_outliers = "no"
+  remove_outliers = "no",
+  colours = "Isfahan1"
 )
 }
 \arguments{
 \item{identifier}{Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").}
 
-\item{type}{Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation) or "WUE" (water use efficiency).}
+\item{type}{Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation) or "WUE" (intrinsic water use efficiency).}
 
 \item{area_correction}{Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.}
 
@@ -34,6 +35,8 @@ licornetics(
 \item{legend_labels}{Change the labels within the legend. Default is set to the input given by the 'identifier' argument.}
 
 \item{remove_outliers}{Optionally remove boxplot outliers (based on data obtained by calculating A/gsw).}
+
+\item{colours}{Colour palette name from the MetBrewer package. Default is set to "Isfahan1".}
 }
 \description{
 Creates plots for physiological parameters measured using the Li-COR photosystem.
@@ -42,6 +45,8 @@ Creates plots for physiological parameters measured using the Li-COR photosystem
 \keyword{co2}
 \keyword{conductance}
 \keyword{efficiency}
+\keyword{exchange}
+\keyword{gas}
 \keyword{kinetics}
 \keyword{leaf}
 \keyword{li-cor}
