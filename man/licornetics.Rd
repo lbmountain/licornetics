@@ -11,6 +11,7 @@ licornetics(
   timestamps = NULL,
   observations = NULL,
   y_axis_limits = NULL,
+  errorbars = "se",
   legend_title = "Genotype",
   legend_labels = identifier,
   remove_outliers = "no",
@@ -29,6 +30,8 @@ licornetics(
 \item{observations}{Crop the range of observations (time) you want to show (e.g. '16:70').}
 
 \item{y_axis_limits}{Change the y axis limits (e.g. 'c(0,2)' with 0 being the lower and 2 the upper limit).}
+
+\item{errorbars}{Set type of errorbars to either standard error ("se", this is the default) or standard deviation ("sd").}
 
 \item{legend_title}{Change the title of the legend. Default is set to "Genotype".}
 
