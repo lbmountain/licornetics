@@ -77,7 +77,13 @@ licornetics(identifier = c("plantline1", "plantline2"))
 
 
 
-##### **5. Correct data for average leaf area**
+##### **5. Choose error bar type**
+The default error bars shown in the plots are standard error (`"se"`) bars. If you want to change them to display standard deviation instead, set the errorbars argument to `"sd"`.
+
+
+
+
+##### **6. Correct data for average leaf area**
 When the leaf is not big enough to fill the entire LI-COR system chamber, gas exchange measurements should be corrected by leaf area. This can be done manually in the excel files or by using the `area_correction` argument of licornetics. Simply divide the chamber size by the average measured leaf area (e.g. 2cm<sup>2</sup>/0.8cm<sup>2</sup>=2.5) and add this value to the code:
 ```yaml
 licornetics(identifier = "plantline1")
@@ -88,7 +94,7 @@ licornetics(identifier = "plantline1", area_correction = 2.5)
 
 
 
-##### **6. Change axis limits**
+##### **7. Change axis limits**
 If you want to modify the range of values displayed on the y axis, use the `y_axis_limits` argument:
 ```yaml
 licornetics(identifier = "plantline1", y_axis_limits = c(0, 0.6))
@@ -106,14 +112,14 @@ licornetics(identifier = "plantline1", observations = 20:60)
 
 
 
-##### **7. Remove outliers**
+##### **8. Remove outliers**
 If the `remove_outliers` argument is set to `"yes"`, licornetics will remove outliers based on boxplot outliers of the water-use efficiency values.
 
 
 
 
 
-##### **8. Further plot modifications**
+##### **9. Further plot modifications**
 Some more arguments are available to edit the final plot:
 
 `timestamps` adds **dotted lines** based on the x axis values it is given.
@@ -138,6 +144,8 @@ licornetics(identifier = c("L1", "L2", "L3", "L4"))
 licornetics(identifier = c("L1", "L2", "L3", "L4"), colours = "Cassatt1")
 ```
 ![plot10_colours](images/plot10_colours.png)
+
+
 
 
 
