@@ -78,7 +78,7 @@ licornetics(identifier = c("plantline1", "plantline2"))
 
 
 ##### **5. Choose error bar type**
-The default error bars shown in the plots are standard error (`"se"`) bars. If you want to change them to display standard deviation instead, set the errorbars argument to `"sd"`.
+The default error bars shown in the plots are standard error (`"se"`) bars. If you want to change them to display standard deviation instead, set the `errorbars` argument to `"sd"`.
 
 
 
