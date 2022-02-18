@@ -4,7 +4,7 @@
 
 This package enables easy visualization of physiological parameters measured with a Li-COR portable photosystem.
 
-It can plot absolute or relative stomatal conductance, carbon assimilation and water-use efficiency. Data from single files can be plotted as well as averaged data across several input files (with standard error bars) and different genotypes, species or conditions can be shown in one plot.
+It can plot absolute or relative stomatal conductance (_g<sub>SW</sub>_), carbon assimilation (_A_) and intrinsic water-use efficiency (iWUE). Data from single files can be plotted as well as averaged data across several input files (with standard error bars) and different genotypes, species or conditions can be shown in one plot.
 
 Licornetics is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 
@@ -152,3 +152,5 @@ licornetics(identifier = c("L1", "L2", "L3", "L4"), colours = "Cassatt1")
 
 ### Troubleshooting help
 We found that sometimes excel files were not read properly into R, leading to empty plots. In those cases it helped to open the excel file outside R Studio and save them again. Afterwards, R read in the data just fine.
+
+If installation via `devtools` does not work, try replacing `devtools` in the code with `remotes`.
