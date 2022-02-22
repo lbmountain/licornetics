@@ -36,6 +36,8 @@ licornetics(identifier = "filename.xlsx")
 ```
 ![plot1_basic](images/plot1_base.png)
 
+Make sure that your files are in the folder you are currently working in (check with `getwd()`) or specify the path to where they are. If all files are in one specific folder you can also use `setwd("path/to/folder")` to go there before you use `licornetics`.
+
 If the filename you are referring to has a unique identifier (such as "test" in the filename "testfile.xlsx"), you can also use this instead of the whole filename:
 ```yaml
 licornetics(identifier = "test")
@@ -150,7 +152,9 @@ licornetics(identifier = c("L1", "L2", "L3", "L4"), colours = "Cassatt1")
 
 
 
-### Troubleshooting help
+#### Troubleshooting help
+
+### Empty plots?
 We found that sometimes excel files were not read properly into R, leading to empty plots. In those cases it helped to open the excel file outside R Studio and save them again. Afterwards, R read in the data just fine.
 
 If installation via `devtools` does not work, try replacing `devtools` in the code with `remotes`.
