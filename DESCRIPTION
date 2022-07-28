@@ -1,11 +1,11 @@
 Package: licornetics
 Type: Package
-Title: Plot physiological parameters using Li-COR data
+Title: Plot physiological parameters using LI-COR data
 Version: 1.1.2
 Year: 2022
 Author: Lea S. Berg
-Maintainer: Lea Berg <miss.lb.mountain@gmail.com>
-Description: Plot physiological parameters measured with a Li-COR photosystem
+Maintainer: Lea S. Berg <miss.lb.mountain@gmail.com>
+Description: Plot physiological parameters measured with a LI-COR photosystem
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
