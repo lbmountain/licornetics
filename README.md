@@ -312,6 +312,7 @@ licorvalues(identifier = "plantline1")
 ```
 
 <br />
+
 ```yaml
 licorvalues(identifier = "plantline1", stomden = 60)
 ```
