@@ -281,6 +281,7 @@ licorvalues(identifier = "plantline1")
 2 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
 ```
 
+<br />
 
 ```yaml
 licorvalues(identifier = "plantline1", area_correction = 2.5)
@@ -302,7 +303,15 @@ in the same order as in the `identifier` argument.
 licorvalues(identifier = "plantline1")
 ```
 
+```
+    genotype transition_zone      gsw      gsw_sd     gsw_se        A       A_sd
+2 plantline1           41:59 0.250021 0.002745064 0.00122763 17.53368 0.06999676
 
+       A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
+2 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+```
+
+<br />
 ```yaml
 licorvalues(identifier = "plantline1", stomden = 60)
 ```
