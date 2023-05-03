@@ -10,8 +10,8 @@ Next, load the package library (this needs to be done every time you restart you
 library(licornetics)
 ```
 
-
-
+<br /> 
+<br />
 
 ### Licorplots (name changed from version 2.0.0 of licornetics onwards)
 
@@ -199,33 +199,9 @@ If installation via `devtools` does not work, try replacing `devtools` in the co
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<br />
+<br />
+<br />
 
 
 
@@ -253,7 +229,7 @@ As output, a data frame/table containing the values is generated and the data wi
 
 
 
-
+<br />
 
 
 #### How to use licorvalues
@@ -273,16 +249,22 @@ The output will then be a plot showing the data with the fitted curves:
 ![plotv_2_curves](images/plotv_2_curves.png)
 
 and a table with the values that is printed to the console:
-    genotype transition_zone       gsw      gsw_sd       gsw_se        A       A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 plantline1           41:59 0.2500210 0.002745064 0.0012276297 17.53368 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
-1 plantline2           41:59 0.1985915 0.002009115 0.0008985037 16.39369 0.03759949 0.0168150 86.42987 0.9092028 0.4066079     0.1117941 6.200213
+```
+    genotype transition_zone       gsw      gsw_sd       gsw_se        A
+2 plantline1           41:59 0.2500210 0.002745064 0.0012276297 17.53368
+1 plantline2           41:59 0.1985915 0.002009115 0.0008985037 16.39369
+
+        A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
+2 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+1 0.03759949 0.0168150 86.42987 0.9092028 0.4066079     0.1117941 6.200213
+```
 
 If you want to save the table later, you can also save the output to an R object which will then include the table but not the plots:
 ```yaml
 new_data <- licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:59)))
 ```
 
-
+<br />
 
 
 ##### **2. Data correction by average leaf area**
@@ -290,17 +272,28 @@ When the leaf is not big enough to fill the entire LI-COR system chamber, gas ex
 ```yaml
 licorvalues(identifier = "plantline1")
 ```
-    genotype transition_zone      gsw      gsw_sd     gsw_se        A       A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 plantline1           41:59 0.250021 0.002745064 0.00122763 17.53368 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+
+```
+    genotype transition_zone      gsw      gsw_sd     gsw_se        A
+2 plantline1           41:59 0.250021 0.002745064 0.00122763 17.53368
+
+        A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
+2 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+```
+
 
 ```yaml
 licorvalues(identifier = "plantline1", area_correction = 2.5)
 ```
-    genotype transition_zone       gsw      gsw_sd      gsw_se        A      A_sd       A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 plantline1           41:59 0.6250525 0.006862659 0.003069074 43.83421 0.1749919 0.07825876 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+```
+    genotype transition_zone       gsw      gsw_sd      gsw_se        A
+2 plantline1           41:59 0.6250525 0.006862659 0.003069074 43.83421
 
+       A_sd       A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
+2 0.1749919 0.07825876 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+```
 
-
+<br />
 
 ##### **3. Data normalisation by stomatal density**
 It is also possible to normalise your data by stomatal density to show your data on a per stoma basis. For this you need to give the stomatal density [stoma/mm<sup>-2</sup>] to the `stomden` argument. If you specified more than one identifier, you need to input the stomatal density for each identifier
@@ -313,14 +306,20 @@ licorvalues(identifier = "plantline1")
 ```yaml
 licorvalues(identifier = "plantline1", stomden = 60)
 ```
-    genotype transition_zone          gsw       gsw_sd      gsw_se            A         A_sd        A_se       iWUE      iWUE_sd      iWUE_se
-2 plantline1           41:59 4.167016e-06 4.575106e-08 2.04605e-08 0.0002922281 1.166613e-06 5.21725e-07 0.00119061 1.388906e-05 6.211375e-06
 
-  rate_constant      T50
-2     0.1667535 4.156717
+```
+    genotype transition_zone          gsw       gsw_sd      gsw_se            A
+2 plantline1           41:59 4.167016e-06 4.575106e-08 2.04605e-08 0.0002922281
+
+          A_sd        A_se       iWUE      iWUE_sd      iWUE_se rate_constant
+2 1.166613e-06 5.21725e-07 0.00119061 1.388906e-05 6.211375e-06     0.1667535
+
+       T50
+2 4.156717
+```
 
 
-
+<br />
 
 ##### **4. Outlier removal, standard error and standard deviation**
 If `remove_outliers = "yes"`, licorvalues will remove outliers from the data based on boxplot outliers of the _A_ (carbon assimilation) column.
@@ -328,7 +327,7 @@ If `remove_outliers = "yes"`, licorvalues will remove outliers from the data bas
 Licorvalues outputs a table with standard error and standard deviation values as the default along with plots depicting the data with standard error values. If you set the argument `errorbars = sd`, the plots will show standard deviation and the table will only include standard deviation but not standard error.
 
 
-
+<br />
 
 ##### **5. Colours**
 Per default, plots are depicted in black but you can also customise this by adding a colour palette via the `colours` argument that assigns a colour
@@ -336,15 +335,20 @@ to each identifier.
 ```yaml
 licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:59), c(61:75)), colours = met.brewer("Derain"))
 ```
-     genotype transition_zone        gsw      gsw_sd       gsw_se          A       A_sd       A_se       iWUE     iWUE_sd     iWUE_se rate_constant
-2  plantline1           41:59 0.25002099 0.002745064 0.0012276297 17.5336849 0.06999676 0.03130350   71.43659   0.8333434   0.3726825     0.1667535
-1  plantline1           61:75 0.02693562 0.004860572 0.0021737137 -0.9172865 0.04142863 0.01852745 -180.21156 238.4259830 106.6273411     0.2266650
-11 plantline2           41:59 0.19859154 0.002009115 0.0008985037 16.3936853 0.03759949 0.01681500   86.42987   0.9092028   0.4066079     0.1117941
-12 plantline2           61:75 0.02550996 0.005165314 0.0023099984 -1.0230697 0.08053374 0.03601579  -53.34118  11.4081815   5.1018938     0.2182721
 
-        T50
-2  4.156717
-1  3.058025
-11 6.200213
-12 3.175611
+```
+     genotype transition_zone        gsw      gsw_sd       gsw_se          A
+2  plantline1           41:59 0.25002099 0.002745064 0.0012276297 17.5336849
+1  plantline1           61:75 0.02693562 0.004860572 0.0021737137 -0.9172865
+11 plantline2           41:59 0.19859154 0.002009115 0.0008985037 16.3936853
+12 plantline2           61:75 0.02550996 0.005165314 0.0023099984 -1.0230697
+
+         A_sd       A_se       iWUE     iWUE_sd     iWUE_se rate_constant      T50
+2  0.06999676 0.03130350   71.43659   0.8333434   0.3726825     0.1667535 4.156717
+1  0.04142863 0.01852745 -180.21156 238.4259830 106.6273411     0.2266650 3.058025
+11 0.03759949 0.01681500   86.42987   0.9092028   0.4066079     0.1117941 6.200213
+12 0.08053374 0.03601579  -53.34118  11.4081815   5.1018938     0.2182721 3.175611
+```
+
+
 ![plotv_5_curves](images/plotv_5_curves.png)
