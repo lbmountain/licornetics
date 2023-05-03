@@ -282,6 +282,7 @@ licorvalues(identifier = "plantline1")
 ```
 
 <br />
+<br />
 
 ```yaml
 licorvalues(identifier = "plantline1", area_correction = 2.5)
