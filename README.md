@@ -132,9 +132,9 @@ licorplots(identifier = "plantline1", area_correction = 2.5, y_axis_limits = c(0
 ![plot6_yaxis](images/plot6_yaxis.png)
 
 
-To change which x axis values are included, use `observations`:
+To change which x axis values are included, use `timeframe`:
 ```yaml
-licorplots(identifier = "plantline1", observations = 25:65)
+licorplots(identifier = "plantline1", timeframe = 25:65)
 ```
 ![plot7_xaxis](images/plot7_xaxis.png)
 
