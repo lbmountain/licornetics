@@ -3,7 +3,7 @@
 #' Creates plots for physiological parameters measured using the Li-COR photosystem.
 #' @param identifier Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").
 #' @param type Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2).
-#' @param area_correction Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.
+#' @param area_correction Li-COR chamber size divided by average of total measured leaf areas (only one value). Default is set to 1.
 #' @param stomden Insert stomatal density to normalise values by stomatal density.
 #' @param timestamps Optionally add vertical lines to the plot as timeline indicators (e.g. 'c(20, 40, 60)').
 #' @param timeframe Crop the range of time you want to show (e.g. '16:70').
@@ -35,6 +35,10 @@ licorplots <- function(identifier,
   library(tidyverse)
   library(readxl)
   library(MetBrewer)
+
+  if(length(area_correction)>1) {
+    stop("area_correction argument allows only one value.")
+  }
 
   licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA)
 
