@@ -24,7 +24,7 @@ licorplots(
 
 \item{type}{Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2).}
 
-\item{area_correction}{Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.}
+\item{area_correction}{Li-COR chamber size divided by average of total measured leaf areas (only one value). Default is set to 1.}
 
 \item{stomden}{Insert stomatal density to normalise values by stomatal density.}
 

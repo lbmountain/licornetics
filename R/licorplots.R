@@ -32,12 +32,18 @@ licorplots <- function(identifier,
   if (!require(tidyverse)) install.packages('tidyverse')
   if (!require(readxl)) install.packages('readxl')
   if (!require(MetBrewer)) install.packages('MetBrewer')
+  if (!require(ggtext)) install.packages('ggtext')
   library(tidyverse)
   library(readxl)
   library(MetBrewer)
+  library(ggtext)
 
   if(length(area_correction)>1) {
     stop("area_correction argument allows only one value.")
+  }
+
+  if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
+    stop("plot type input is something other than 'gsw', 'relgsw', 'A', 'WUE', 'Ci' or 'Ca'.")
   }
 
   licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA)
@@ -185,8 +191,9 @@ licorplots <- function(identifier,
       theme(legend.position = "bottom",
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
-            legend.background = element_rect(fill=NA))+
-      labs(x="Time [min]", y=expression(paste("Relative g"[SW], " [%]")))
+            legend.background = element_rect(fill=NA),
+            axis.title.y = element_markdown())+
+      labs(x="Time [min]", y= "Relative *g*<sub>SW</sub> [%]")
   }
 
 
@@ -203,10 +210,10 @@ licorplots <- function(identifier,
       }
 
       if(is_empty(stomden)) {
-        y_label <- expression(paste("Absolute g"[SW], " [mol m"^-2, " s"^-1, "]"))
+        y_label <- "Absolute *g*<sub>SW</sub> [mol m<sup>-2</sup> s<sup>-1</sup>]"
       }
       else {
-        y_label <- expression(paste("Absolute g"[SW], " [mol Stoma"^-1, " s"^-1, "]"))
+        y_label <- "Absolute *g*<sub>SW</sub> [mol stoma s<sup>-1</sup>]"
       }
     }
 
@@ -223,10 +230,10 @@ licorplots <- function(identifier,
       }
 
       if(is_empty(stomden)) {
-        y_label <- expression(paste("A [mol m"^-2, " s"^-1, "]"))
+        y_label <- "*A* [mol m<sup>-2</sup> s<sup>-1</sup>]"
       }
       else {
-        y_label <- expression(paste("A [mol Stoma"^-1, " s"^-1, "]"))
+        y_label <- "*A* [mol stoma s<sup>-1</sup>]"
       }
     }
 
@@ -242,7 +249,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_WUE
       }
 
-      y_label <- expression(paste("iWUE [mol(CO"[2], ") mol(H"[2],"O)"^-1, "]"))
+      y_label <- "iWUE [mol(CO<sub>2</sub>) mol(H<sub>2</sub>O)<sup>-1</sup>]"
     }
 
 
@@ -257,7 +264,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_Ci
       }
 
-      y_label <- expression(paste("C"[i], " [µmol mol"^-1, "]"))
+      y_label <- "*C*<sub>i</sub> [µmol mol<sup>-1</sup>]"
     }
 
 
@@ -272,7 +279,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_Ca
       }
 
-      y_label <- expression(paste("C"[a], " [µmol mol"^-1, "]"))
+      y_label <- "*C*<sub>a</sub> [µmol mol<sup>-1</sup>]"
     }
 
 
@@ -292,7 +299,8 @@ licorplots <- function(identifier,
       theme(legend.position = "bottom",
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
-            legend.background = element_rect(fill=NA))+
+            legend.background = element_rect(fill=NA),
+            axis.title.y = element_markdown())+
       labs(x="Time [min]", y=y_label)
   }
 }
