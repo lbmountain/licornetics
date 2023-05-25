@@ -87,7 +87,7 @@ licorplots <- function(identifier,
       lesslicor$timepoint <- round(lesslicor$timesec-(timezero-1))
 
       if(!is_empty(timeframe)) {
-        croplicor<- na.omit(lesslicor[timeframe,])
+        croplicor <- na.omit(lesslicor[which(lesslicor$timepoint %in% timeframe),])
       }
 
       else {
