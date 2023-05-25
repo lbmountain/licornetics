@@ -230,10 +230,10 @@ licorplots <- function(identifier,
       }
 
       if(is_empty(stomden)) {
-        y_label <- "*A* [mol m<sup>-2</sup> s<sup>-1</sup>]"
+        y_label <- "*A* [µmol m<sup>-2</sup> s<sup>-1</sup>]"
       }
       else {
-        y_label <- "*A* [mol stoma s<sup>-1</sup>]"
+        y_label <- "*A* [µmol stoma s<sup>-1</sup>]"
       }
     }
 
@@ -249,7 +249,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_WUE
       }
 
-      y_label <- "iWUE [mol(CO<sub>2</sub>) mol(H<sub>2</sub>O)<sup>-1</sup>]"
+      y_label <- "iWUE [µmol(C) mol(H<sub>2</sub>O)<sup>-1</sup>]"
     }
 
 
