@@ -255,7 +255,7 @@ licorvalues <- function(identifier,
           geom_errorbar(mapping=aes(ymin=mean_relgsw - se_rel, ymax=mean_relgsw + se_rel), alpha=0.5, show.legend = F, colour=plotcolour)+
           theme_classic()+
           theme(axis.title.y = element_markdown(),
-                title = element_markdown())+
+                plot.title = element_markdown())+
           scale_y_continuous(limits = c(0,1))+
           labs(x="Time [min]", y="Relative *g*<sub>SW</sub> [%]", title = plotlabel)
       }
@@ -267,7 +267,7 @@ licorvalues <- function(identifier,
           geom_errorbar(mapping=aes(ymin=mean_relgsw - sd_rel, ymax=mean_relgsw + sd_rel), alpha=0.5, show.legend = F, colour=plotcolour)+
           theme_classic()+
           theme(axis.title.y = element_markdown(),
-                title = element_markdown())+
+                plot.title = element_markdown())+
           scale_y_continuous(limits = c(0,1))+
           labs(x="Time [min]", y="Relative *g*<sub>SW</sub> [%]", title = plotlabel)
       }
