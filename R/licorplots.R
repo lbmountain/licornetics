@@ -192,7 +192,9 @@ licorplots <- function(identifier,
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
             legend.background = element_rect(fill=NA),
-            axis.title.y = element_markdown())+
+            axis.title.y = element_markdown(),
+            legend.text = element_markdown(),
+            legend.title = element_markdown())+
       labs(x="Time [min]", y= "Relative *g*<sub>SW</sub> [%]")
   }
 
@@ -300,7 +302,9 @@ licorplots <- function(identifier,
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
             legend.background = element_rect(fill=NA),
-            axis.title.y = element_markdown())+
+            axis.title.y = element_markdown(),
+            legend.text = element_markdown(),
+            legend.title = element_markdown())+
       labs(x="Time [min]", y=y_label)
   }
 }

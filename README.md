@@ -32,6 +32,7 @@ As output, a plot is generated using the `ggplot2` package which can therefore b
 - colours are more customisable now
 - x axis depicts actual time in minutes calculated from measured timepoint now rather than based on the _obs_ column
 - outlier removal is based on _A_ not iWUE now
+- customisable text labels now support markdown formatting (e.g. italics or bold)
 
 
 
@@ -160,9 +161,9 @@ licorplots(identifier = "plantline1", timestamps = c(20, 40, 60))
 
 `legend_title` allows to change the legend **title**. Default title is `"Genotype"`.
 
-The **labels** of the legend can be modified by using `legend_labels`. The order of labels should follow the order of data given in the `identifier` argument. If `legend_labels` is not changed, the names used in `identifier` are displayed.
+The **labels** of the legend can be modified by using `legend_labels`. The order of labels should follow the order of data given in the `identifier` argument. If `legend_labels` is not changed, the names used in `identifier` are displayed. Both `legend_title` and `legend_labels` support markdown formatting so that you can for example format your text in _italics_ or **bold**.
 ```yaml
-licorplots(identifier = c("plantline1", "plantline2"), legend_title = "Species", legend_labels = c("Plant x", "Plant y"))
+licorplots(identifier = c("plantline1", "plantline2"), legend_title = "**Species**"", legend_labels = c("*Plant x*", "Plant y"))
 ```
 ![plot9_labels](images/plot9_labels.png)
 
@@ -268,7 +269,7 @@ new_data <- licorvalues(identifier = c("plantline1", "plantline2"), transition =
 
 
 ##### **2. Data correction by average leaf area**
-When the leaf is not big enough to fill the entire LI-COR system chamber, gas exchange measurements should be corrected by leaf area. This can be done manually in the excel files or by using the `area_correction` argument of licorvalues. Simply divide the chamber size by the average measured leaf area (e.g. 2cm<sup>2</sup>/0.8cm<sup>2</sup>=2.5) and add this value to the code:
+When the leaf is not big enough to fill the entire LI-COR system chamber, gas exchange measurements should be corrected by leaf area. This can be done manually in the excel files or by using the `area_correction` argument of licorvalues. Simply divide the chamber size by the average measured leaf areas (e.g. 2cm<sup>2</sup>/0.8cm<sup>2</sup>=2.5) and add this value to the code:
 ```yaml
 licorvalues(identifier = "plantline1")
 ```
