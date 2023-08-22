@@ -215,7 +215,7 @@ licorplots <- function(identifier,
         y_label <- "Absolute *g*<sub>SW</sub> [mol m<sup>-2</sup> s<sup>-1</sup>]"
       }
       else {
-        y_label <- "Absolute *g*<sub>SW</sub> [mol stoma s<sup>-1</sup>]"
+        y_label <- "Absolute *g*<sub>SW</sub> [mol stoma<sup>-1</sup> s<sup>-1</sup>]"
       }
     }
 
@@ -235,7 +235,7 @@ licorplots <- function(identifier,
         y_label <- "*A* [µmol m<sup>-2</sup> s<sup>-1</sup>]"
       }
       else {
-        y_label <- "*A* [µmol stoma s<sup>-1</sup>]"
+        y_label <- "*A* [µmol stoma<sup>-1</sup> s<sup>-1</sup>]"
       }
     }
 
