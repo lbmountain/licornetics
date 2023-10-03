@@ -16,13 +16,14 @@ licorplots(
   legend_title = "Genotype",
   legend_labels = identifier,
   remove_outliers = "no",
-  colours = NULL
+  colours = NULL,
+  axis_label = type
 )
 }
 \arguments{
 \item{identifier}{Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").}
 
-\item{type}{Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2).}
+\item{type}{Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2). From version 2.0.1 onward also allows plotting of other columns (e.g. "Fs").}
 
 \item{area_correction}{Li-COR chamber size divided by average of total measured leaf areas (only one value). Default is set to 1.}
 
@@ -43,6 +44,8 @@ licorplots(
 \item{remove_outliers}{Optionally remove boxplot outliers by setting to "yes" (based on outliers from the 'A' column).}
 
 \item{colours}{Set colour palette (e.g. 'c("red", "green")'). Default uses the "Isfahan1" palette of the MetBrewer package.}
+
+\item{axis_label}{Change y axis label text. Allows markdown language elements.}
 }
 \description{
 Creates plots for physiological parameters measured using the Li-COR photosystem.

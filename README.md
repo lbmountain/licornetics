@@ -1,5 +1,5 @@
 ### How to download and install the package in R or R Studio
-You can install the most recent version (v2.0.0) of licornetics from github with the following code:
+You can install the most recent version (v2.0.1) of licornetics from github with the following code:
 ```yaml
 if (!require(devtools)) install.packages('devtools')
 devtools::install_github("lbmountain/licornetics")
@@ -19,21 +19,24 @@ library(licornetics)
 
 This function enables easy visualization of physiological parameters measured with a Li-COR portable photosystem.
 
-It can plot absolute or relative stomatal conductance (_g<sub>SW</sub>_), carbon assimilation (_A_), intrinsic water-use efficiency (iWUE), intercellular CO<sub>2</sub> (_C_<sub>i</sub>) and ambient CO<sub>2</sub> (_C_<sub>a</sub>). Data from single files can be plotted as well as averaged data across several input files (with standard error or deviation bars) and different genotypes, species or conditions can be shown in one plot.
+It can plot absolute or relative stomatal conductance (_g<sub>SW</sub>_), carbon assimilation (_A_), intrinsic water-use efficiency (iWUE), intercellular CO<sub>2</sub> (_C_<sub>i</sub>) and ambient CO<sub>2</sub> (_C_<sub>a</sub>). Also allows to plot other values from version 2.0.1 onward. Data from single files can be plotted as well as averaged data across several input files (with standard error or deviation bars) and different genotypes, species or conditions can be shown in one plot.
 
 Licorplots is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 
-As output, a plot is generated using the `ggplot2` package which can therefore be used downstream with ggplot-based packages such as `ggpubr`. Plot colours are added based on the "Isfahan1" palette from the `MetBrewer` package (https://github.com/BlakeRMills/MetBrewer) as a default but can also be customized with your own colour palette.
+As output, a customizable plot is generated using the `ggplot2` package which can therefore be used downstream with ggplot-based packages such as `ggpubr`. Plot colours are added based on the "Isfahan1" palette from the `MetBrewer` package (https://github.com/BlakeRMills/MetBrewer) as a default but can also be customized with your own colour palette.
 
 
 #### Updates included in version 2.0.0
 - additional plotting option for Intercellular CO<sub>2</sub> and Ambient CO<sub>2</sub>
 - **values can now be normalised by stomatal density with the `stomden` function**
-- colours are more customisable now
+- colours are more customizable now
 - x axis depicts actual time in minutes calculated from measured timepoint now rather than based on the _obs_ column
 - outlier removal is based on _A_ not iWUE now
-- customisable text labels now support markdown formatting (e.g. italics or bold)
+- customizable text labels now support markdown formatting (e.g. italics or bold)
 
+#### Updates included in version 2.0.1
+- The "type" argument now also allows other inputs. It is important that the input is a column of the Li-COR excel output data files (e.g. "Fs" or "Qamb_out").
+- y axis label text can be changed now with the "axis_label" argument
 
 
 
@@ -62,7 +65,7 @@ licorplots(identifier = "test")
 
 
 ##### **2. Different plot types**
-While the default setting of licorplots will yield a plot of data for absolute stomatal conductance, there are in total six plot types available which can be selected with the `type` argument:
+While the default setting of licorplots will yield a plot of data for absolute stomatal conductance, there are also other options available (including intrinsic water-use efficiency and relative stomatal conductance (not included in the Li-6800 output files)) which can be selected with the `type` argument:
 
 1. **Absolute stomatal conductance** (`"gsw"`, _gsw_ in the excel files)
 
@@ -75,6 +78,8 @@ While the default setting of licorplots will yield a plot of data for absolute s
 5. **Intercellular CO<sub>2</sub>** (`"Ci"`, _Ci_ in the excel files) 
 
 6. **Ambient Co<sub>2</sub>** (`"Ca"`, _Ca_ in the excel files)
+
+7. **Data column of your choice** (refer to a column name in the excel files)
 ```yaml
 licorplots(identifier = "test", type = "gsw")
 licorplots(identifier = "test", type = "relgsw")
@@ -82,6 +87,7 @@ licorplots(identifier = "test", type = "A")
 licorplots(identifier = "test", type = "WUE")
 licorplots(identifier = "test", type = "Ci")
 licorplots(identifier = "test", type = "Ca")
+licorplots(identifier = "test", type = "Fs")
 ```
 ![plot3_types](images/plot3_types.png)
 
@@ -162,8 +168,10 @@ licorplots(identifier = "plantline1", timestamps = c(20, 40, 60))
 `legend_title` allows to change the legend **title**. Default title is `"Genotype"`.
 
 The **labels** of the legend can be modified by using `legend_labels`. The order of labels should follow the order of data given in the `identifier` argument. If `legend_labels` is not changed, the names used in `identifier` are displayed. Both `legend_title` and `legend_labels` support markdown formatting so that you can for example format your text in _italics_ or **bold**.
+
+The **y axis label** can be customized by using the `axis_label` argument. This argument supports usage of markdown language formatting.
 ```yaml
-licorplots(identifier = c("plantline1", "plantline2"), legend_title = "**Species**"", legend_labels = c("*Plant x*", "Plant y"))
+licorplots(identifier = c("plantline1", "plantline2"), legend_title = "**Species**"", legend_labels = c("*Plant x*", "Plant y"), axis_label = "**g<sub>SW</sub>**")
 ```
 ![plot9_labels](images/plot9_labels.png)
 

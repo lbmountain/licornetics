@@ -45,7 +45,7 @@ licornetics(
 \item{colours}{Set colour palette (e.g. 'c("red", "green")'). Default uses the "Isfahan1" palette of the MetBrewer package.}
 }
 \description{
-Creates plots for physiological parameters measured using the Li-COR photosystem.
+Creates plots for physiological parameters measured using the Li-COR photosystem. Old version of the plotting tool, please use licorplots() instead (Licornetics v2.0.0 and newer).
 }
 \keyword{assimilation}
 \keyword{ca}

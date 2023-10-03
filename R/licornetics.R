@@ -1,9 +1,9 @@
-#' Plot Li-COR data
+#' Li-COR plotting package
 #'
-#' Creates plots for physiological parameters measured using the Li-COR photosystem.
+#' Creates plots for physiological parameters measured using the Li-COR photosystem. Old version of the plotting tool, please use licorplots() instead (Licornetics v2.0.0 and newer).
 #' @param identifier Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").
-#' @param type Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2). From version 2.0.1 onward also allows plotting of other columns (e.g. "Fs").
-#' @param area_correction Li-COR chamber size divided by average of total measured leaf areas (only one value). Default is set to 1.
+#' @param type Determines y axis data. Can be "gsw" (absolute stomatal conductance), "relgsw" (relative stomatal conductance), "A" (CO2 assimilation), "WUE" (intrinsic water use efficiency), "Ci" (Intercellular CO2) or "Ca" (Ambient CO2).
+#' @param area_correction Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.
 #' @param stomden Insert stomatal density to normalise values by stomatal density.
 #' @param timestamps Optionally add vertical lines to the plot as timeline indicators (e.g. 'c(20, 40, 60)').
 #' @param timeframe Crop the range of time you want to show (e.g. '16:70').
@@ -11,13 +11,12 @@
 #' @param errorbars Set type of errorbars to either standard error ("se", this is the default) or standard deviation ("sd").
 #' @param legend_title Change the title of the legend. Default is set to "Genotype".
 #' @param legend_labels Change the labels within the legend. Default is set to the input given by the 'identifier' argument.
-#' @param remove_outliers Optionally remove boxplot outliers by setting to "yes" (based on outliers from the 'A' column).
+#' @param remove_outliers Optionally remove boxplot outliers by setting to "yes" (based on data obtained by calculating A/gsw).
 #' @param colours Set colour palette (e.g. 'c("red", "green")'). Default uses the "Isfahan1" palette of the MetBrewer package.
-#' @param axis_label Change y axis label text. Allows markdown language elements.
-#' @keywords physiology plot co2 assimilation li-cor stomatal conductance wue water-use efficiency photosynthesis gas exchange ci ca carbon water
+#' @keywords physiology plot co2 assimilation li-cor stomatal conductance leaf kinetics wue water-use efficiency photosynthesis gas exchange ci ca carbon water
 #' @export
 
-licorplots <- function(identifier,
+licornetics<- function(identifier,
                        type="gsw",
                        area_correction=1,
                        stomden=NULL,
@@ -28,53 +27,26 @@ licorplots <- function(identifier,
                        legend_title="Genotype",
                        legend_labels=identifier,
                        remove_outliers="no",
-                       colours=NULL,
-                       axis_label=type) {
+                       colours=NULL) {
   ##load required packages
   if (!require(tidyverse)) install.packages('tidyverse')
   if (!require(readxl)) install.packages('readxl')
   if (!require(MetBrewer)) install.packages('MetBrewer')
-  if (!require(ggtext)) install.packages('ggtext')
   library(tidyverse)
   library(readxl)
   library(MetBrewer)
-  library(ggtext)
-
-  if(length(area_correction)>1) {
-    stop("area_correction argument allows only one value.")
-  }
-
-  #if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-  #  stop("plot type input is something other than 'gsw', 'relgsw', 'A', 'WUE', 'Ci' or 'Ca'.")
-  #}
 
   licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA)
-  if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-    licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA, extra_col=NA)
-  }
-
-  if(!is_empty(stomden)) {
-    densities <- data.frame(identifier=identifier,
-                            density=stomden)
-  }
 
 
   ###load data files for each genotype
   for (i in identifier) {
-
-
     files <- dir(pattern=i)
     for (onefile in files) {
+      #new_file<- read_excel(onefile, sheet=1, col_names = F, skip = 16)
       new_file <- suppressMessages(read_excel(onefile, sheet=1, col_names = F, range = cell_cols(1:15)))
       new_file <- new_file[-c(1:15),]
-      names(new_file) <- suppressMessages(as_vector(read_excel(onefile, sheet=1, col_names = F, range = "A15:O15")))
-
-      if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-        extra_file <- suppressMessages(read_excel(onefile, sheet = 1, col_names = T, trim_ws = F, skip = 14)) %>% .[, type]
-        extra_file <- extra_file[-1,]
-        final_name <- as_vector(colnames(extra_file))
-        colnames(extra_file) <- "extra_col"
-      }
+      names(new_file)<- suppressMessages(as_vector(read_excel(onefile, sheet=1, col_names = F, range = "A15:O15")))
 
       lesslicor<- new_file %>% select(TIME, A, gsw, Ci, Ca)
       lesslicor$A <- as.numeric(lesslicor$A)
@@ -82,12 +54,6 @@ licorplots <- function(identifier,
       lesslicor$TIME<- as.numeric(lesslicor$TIME)
       lesslicor$Ci<- as.numeric(lesslicor$Ci)
       lesslicor$Ca<- as.numeric(lesslicor$Ca)
-
-      if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-        lesslicor <- cbind(lesslicor, extra_file)
-        lesslicor$extra_col <- as.numeric(lesslicor$extra_col)
-      }
-
 
 
       #calculate relative stomatal conductance
@@ -104,7 +70,7 @@ licorplots <- function(identifier,
       lesslicor$timepoint <- round(lesslicor$timesec-(timezero-1))
 
       if(!is_empty(timeframe)) {
-        croplicor <- na.omit(lesslicor[which(lesslicor$timepoint %in% timeframe),])
+        croplicor<- na.omit(lesslicor[timeframe,])
       }
 
       else {
@@ -120,24 +86,8 @@ licorplots <- function(identifier,
         }
       }
 
-      if(!is_empty(stomden)) {
-        density <- densities %>% filter(identifier==i) %>% .[1,2]
-        ## multiply stomatal density by 1000
-        density2 <- density*1000
 
-        ## divide by stomatal density to normalise
-        croplicor$gsw <- croplicor$gsw/density2
-        croplicor$A <- croplicor$A/density2
-        croplicor$WUE <- croplicor$WUE/density2
-        croplicor$Ci <- croplicor$Ci/density2
-        croplicor$Ca <- croplicor$Ca/density2
-
-        if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-          croplicor$extra_col <- croplicor$extra_col/density2
-        }
-      }
-
-      licorall<- na.omit(rbind(croplicor, licorall))
+      licorall<- na.omit(rbind(licorall, croplicor))
     }
   }
 
@@ -147,11 +97,19 @@ licorplots <- function(identifier,
     licorall$A <- licorall$A*area_correction
     licorall$Ci <- licorall$Ci*area_correction
     licorall$Ca <- licorall$Ca*area_correction
-    if (!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-      licorall$extra_col <- licorall$extra_col*area_correction
-    }
   }
 
+  if(!is_empty(stomden)) {
+    ## multiply stomatal density by 1000
+    stomden2 <- stomden*1000
+
+    ## divide by stomatal density to normalise
+    licorall$gsw <- licorall$gsw/stomden2
+    licorall$A <- licorall$A/stomden2
+    licorall$WUE <- licorall$WUE/stomden2
+    licorall$Ci <- licorall$Ci/stomden2
+    licorall$Ca <- licorall$Ca/stomden2
+  }
 
 
   ##calculate means, standard deviation and standard error of the gsw values
@@ -163,16 +121,9 @@ licorplots <- function(identifier,
                                            mean_Ci=mean(Ci), sd_Ci=sd(Ci), se_Ci=sd(Ci)/sqrt(length(na.omit(Ci))),
                                            mean_Ca=mean(Ca), sd_Ca=sd(Ca), se_Ca=sd(Ca)/sqrt(length(na.omit(Ca)))))
 
-  if (!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-    extra_geno <- suppressMessages(licorall %>% group_by(timepoint, genotype) %>%
-                                     summarise(mean_extra=mean(extra_col), sd_extra=sd(extra_col),
-                                               se_extra=sd(extra_col)/sqrt(length(na.omit(extra_col)))))
-    extra_geno$genotype <- ordered(extra_geno$genotype, levels = identifier)
-  }
-
 
   ##order data for plots by the order of keywords in 'identifier'
-  licorgeno$genotype <- ordered(licorgeno$genotype, levels=identifier)
+  licorgeno$genotype <- ordered(licorgeno$genotype , levels=identifier)
 
 
   ##set palette for plotting
@@ -207,12 +158,6 @@ licorplots <- function(identifier,
       errors <- licorgeno$sd_rel
     }
 
-    if(!axis_label == type) {
-      y_label <- axis_label
-    }
-
-    y_label <- "Relative *g*<sub>SW</sub> [%]"
-
     ##plot time against relative stomatal conductance (relgsw) with standard error bars
     ggplot(licorgeno, mapping=aes(x=timepoint, y=plotinfo))+
       geom_errorbar(mapping=aes(ymin=plotinfo - errors, ymax=plotinfo + errors, colour=genotype), alpha=0.5, show.legend = F)+
@@ -226,10 +171,8 @@ licorplots <- function(identifier,
       theme(legend.position = "bottom",
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
-            legend.background = element_rect(fill=NA),
-            axis.title.y = element_markdown(),
-            legend.text = element_markdown())+
-      labs(x="Time [min]", y= y_label)
+            legend.background = element_rect(fill=NA))+
+      labs(x="Time [min]", y=expression(paste("Relative g"[SW], " [%]")))
   }
 
 
@@ -245,16 +188,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_abs
       }
 
-      if(is_empty(stomden)) {
-        y_label <- "Absolute *g*<sub>SW</sub> [mol m<sup>-2</sup> s<sup>-1</sup>]"
-      }
-      else {
-        y_label <- "Absolute *g*<sub>SW</sub> [mol stoma<sup>-1</sup> s<sup>-1</sup>]"
-      }
-
-      if(!axis_label == type) {
-        y_label <- axis_label
-      }
+      y_label <- expression(paste("Absolute g"[SW], " [mol m"^-2, " s"^-1, "]"))
     }
 
 
@@ -269,16 +203,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_A
       }
 
-      if(is_empty(stomden)) {
-        y_label <- "*A* [µmol m<sup>-2</sup> s<sup>-1</sup>]"
-      }
-      else {
-        y_label <- "*A* [µmol stoma<sup>-1</sup> s<sup>-1</sup>]"
-      }
-
-      if(!axis_label == type) {
-        y_label <- axis_label
-      }
+      y_label <- expression(paste("A [mol m"^-2, " s"^-1, "]"))
     }
 
 
@@ -293,11 +218,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_WUE
       }
 
-      y_label <- "iWUE [µmol(C) mol(H<sub>2</sub>O)<sup>-1</sup>]"
-
-      if(!axis_label == type) {
-        y_label <- axis_label
-      }
+      y_label <- expression(paste("iWUE [mol(CO"[2], ") mol(H"[2],"O)"^-1, "]"))
     }
 
 
@@ -312,11 +233,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_Ci
       }
 
-      y_label <- "*C*<sub>i</sub> [µmol mol<sup>-1</sup>]"
-
-      if(!axis_label == type) {
-        y_label <- axis_label
-      }
+      y_label <- expression(paste("C"[i], " [µmol mol"^-1, "]"))
     }
 
 
@@ -331,28 +248,7 @@ licorplots <- function(identifier,
         errors <- licorgeno$sd_Ca
       }
 
-      y_label <- "*C*<sub>a</sub> [µmol mol<sup>-1</sup>]"
-
-      if(!axis_label == type) {
-        y_label <- axis_label
-      }
-    }
-
-
-    if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-      plotinfo <- extra_geno$mean_extra
-
-      if(errorbars=="se") {
-        errors <- extra_geno$se_extra
-      }
-
-      if(errorbars=="sd") {
-        errors <- extra_geno$sd_extra
-      }
-
-      y_label <- axis_label
-
-      licorgeno <- extra_geno
+      y_label <- expression(paste("C"[a], " [µmol mol"^-1, "]"))
     }
 
 
@@ -372,10 +268,7 @@ licorplots <- function(identifier,
       theme(legend.position = "bottom",
             legend.justification="left",
             legend.box.margin = margin(c(-10)),
-            legend.background = element_rect(fill=NA),
-            axis.title.y = element_markdown(),
-            legend.text = element_markdown(),
-            legend.title = element_markdown())+
+            legend.background = element_rect(fill=NA))+
       labs(x="Time [min]", y=y_label)
   }
 }
