@@ -48,9 +48,9 @@ licorplots <- function(identifier,
   #  stop("plot type input is something other than 'gsw', 'relgsw', 'A', 'WUE', 'Ci' or 'Ca'.")
   #}
 
-  licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA)
+  licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA)
   if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-    licorall<- data.frame(TIME=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timesec=NA, timepoint=NA, extra_col=NA)
+    licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA, extra_col=NA)
   }
 
   if(!is_empty(stomden)) {
@@ -61,10 +61,11 @@ licorplots <- function(identifier,
 
   ###load data files for each genotype
   for (i in identifier) {
-
+    print(i)
 
     files <- dir(pattern=i)
     for (onefile in files) {
+      print(onefile)
       new_file <- suppressMessages(read_excel(onefile, sheet=1, col_names = F, range = cell_cols(1:15)))
       new_file <- new_file[-c(1:15),]
       names(new_file) <- suppressMessages(as_vector(read_excel(onefile, sheet=1, col_names = F, range = "A15:O15")))
@@ -76,10 +77,10 @@ licorplots <- function(identifier,
         colnames(extra_file) <- "extra_col"
       }
 
-      lesslicor<- new_file %>% select(TIME, A, gsw, Ci, Ca)
+      lesslicor<- new_file %>% select(elapsed, A, gsw, Ci, Ca)
       lesslicor$A <- as.numeric(lesslicor$A)
       lesslicor$gsw<- as.numeric(lesslicor$gsw)
-      lesslicor$TIME<- as.numeric(lesslicor$TIME)
+      lesslicor$elapsed<- as.integer(lesslicor$elapsed)
       lesslicor$Ci<- as.numeric(lesslicor$Ci)
       lesslicor$Ca<- as.numeric(lesslicor$Ca)
 
@@ -99,9 +100,7 @@ licorplots <- function(identifier,
       lesslicor$individual<- onefile
       lesslicor$genotype<- i
 
-      lesslicor$timesec <- (round(lesslicor$TIME))/60
-      timezero <- as.numeric(lesslicor[1, "timesec"])
-      lesslicor$timepoint <- round(lesslicor$timesec-(timezero-1))
+      lesslicor$timepoint <- as.integer(lesslicor$elapsed/60)
 
       if(!is_empty(timeframe)) {
         croplicor <- na.omit(lesslicor[which(lesslicor$timepoint %in% timeframe),])
