@@ -2,35 +2,30 @@
 % Please edit documentation in R/licorvalues.R
 \name{licorvalues}
 \alias{licorvalues}
-\title{Calculate steady state and kinetics values from Li-COR data}
+\title{Calculate steady state and kinetics values from Li-COR data.}
 \usage{
 licorvalues(
   identifier,
   transition = list("All"),
-  area_correction = 1,
   stomden = NULL,
   label = NULL,
   remove_outliers = "no",
-  colours = NULL,
-  errorbars = "se"
+  show_individuals = F,
+  colours = NULL
 )
 }
 \arguments{
 \item{identifier}{Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").}
 
-\item{transition}{Split your data into different time frames to distinguish between transition phases. Default uses all time points at once.}
+\item{transition}{Split your data into different time frames to distinguish between transition phases. Default uses all time points at once. Input as lists (e.g. 'list(c(14:25), c(26:37))')}
 
-\item{area_correction}{Correct data by leaf area. Li-COR chamber size divided by average of measured leaf areas. Default is set to 1.}
-
-\item{stomden}{Insert stomatal density to normalise values by stomatal density.}
-
-\item{label}{Change the names for each 'identifier' input. Default is set to the input given by the 'identifier' argument.}
+\item{stomden}{Normalise data by stomatal density (in unit stomata/mm2). Order of input must follow order of identifiers. (e.g. 'c(50, 100, 70)')}
 
 \item{remove_outliers}{Optionally remove boxplot outliers by setting to "yes" (based on outliers from the 'A' column).}
 
-\item{colours}{Set colour to be used for each identifier in final plots (e.g. 'c("red", "green")'). Default is black.}
+\item{show_individuals}{Change final plot output in R to depict plots for each single input file. Default shows averaged plots for each identifier.}
 
-\item{errorbars}{Set type of errorbars to either standard error ("se", this is the default) or standard deviation ("sd").}
+\item{colours}{Set colour to be used for each identifier in final plots (e.g. 'c("red", "green")'). Default is black.}
 }
 \description{
 Calculate steady state values and kinetics parameters and plot regression curves from data measured using the Li-COR photosystem.

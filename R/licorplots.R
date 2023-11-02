@@ -44,10 +44,6 @@ licorplots <- function(identifier,
     stop("area_correction argument allows only one value.")
   }
 
-  #if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
-  #  stop("plot type input is something other than 'gsw', 'relgsw', 'A', 'WUE', 'Ci' or 'Ca'.")
-  #}
-
   licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA)
   if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
     licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA, extra_col=NA)

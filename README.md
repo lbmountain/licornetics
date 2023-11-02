@@ -219,17 +219,20 @@ If installation via `devtools` does not work, try replacing `devtools` in the co
 
 ### Licorvalues (new in version 2.0.0 of licornetics)
 
-**Calculate steady state values and kinetics parameters and plot regression curves from data measured using the Li-COR photosystem.**
+**Calculate steady state values and kinetics parameters from data measured using the Li-COR photosystem.**
 
 This function calculates steady state values along with kinetics parameters based on Li-COR excel files.
-It also visualises relative stomatal conductance and plots a regression curve onto the data.
+It also visualises absolute stomatal conductance and plots the fitted curve onto the data.
+Modeling and calculation of kinetics parameters is based on the model describing the change of stomatal conductance over time introduced in [Vialet-Chabrand et al. (2013)](#1) and [McAusland et al. (2016)](#2).
 
 The following values will be calculated:
-1. **Steady state absolute stomatal conductance ("gsw")** with standard deviation and error (if `errorbars = "se` was selected).
-2. **Steady state carbon assimilation ("A")** with standard deviation and error (if `errorbars = "se` was selected).
-3. **Intrinsic water-use efficiency ("iWUE")** with standard deviation and error (if `errorbars = "se` was selected).
-4. **Rate constant** of the curve.
-5. **Half-time ("T50")** of opening or closing.
+
+1. **Steady state absolute stomatal conductance ("gsw")** averaged over the last 5 time points of a specified time frame with standard deviation and error.
+2. **Steady state carbon assimilation ("A")** averaged over the last 5 time points of a specified time frame with standard deviation and error.
+3. **Intrinsic water-use efficiency ("iWUE")** averaged over the last 5 time points of a specified time frame with standard deviation and error.
+4. **Lag-time (λ)** of the curve in response to a change in irradiance (in s and min) with standard error.
+5. **Time constant ("k")** of opening or closing (in s<sup>-1</sup> and min<sup>-1</sup>) with standard error.
+6. **Maximum slope (Slmax)** of the curve in response to a change in irradiance with standard error.
 
 Licorvalues is optimized for the use of Excel sheet files (**.xlsx**) created by the Li-6800 system.
 
@@ -247,66 +250,36 @@ Let's imagine you have ran a Li-COR program on several individuals of two genoty
 plot that you created using the `licorplots` function might now look like this:
 ![plotv_1_example](images/plotv_1_example.png)
 
-Now you want to have a closer look at the second opening transition at 41 to 59 minutes. You can use `licorvalues` to calculate steady state values
+Now you want to have a closer look at the second opening transition at 41 to 58 minutes. You can use `licorvalues` to calculate steady state values
 for the last 5 minutes of this time frame and it will also show you what the exponential decay curve looks like that was fitted over your data.
 Similar to the `licorplots` function you name identifiers, here `"plantline1"` and `"plantline2"`, and then you give a list object to the `transition` argument that specifies the time frame that you want to calculate steady state and kinetics values for.
 
 ```yaml
-licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:59)))
+licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:58)))
 ```
 The output will then be a plot showing the data with the fitted curves:
 ![plotv_2_curves](images/plotv_2_curves.png)
 
 and a table with the values that is printed to the console:
 ```
-    genotype transition_zone       gsw      gsw_sd       gsw_se        A
-2 plantline1           41:59 0.2500210 0.002745064 0.0012276297 17.53368
-1 plantline2           41:59 0.1985915 0.002009115 0.0008985037 16.39369
-
-        A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
-1 0.03759949 0.0168150 86.42987 0.9092028 0.4066079     0.1117941 6.200213
+    ID transition_zone       gsw      gsw_sd       gsw_se        A       A_sd       A_se     iWUE   iWUE_sd   iWUE_se
+  LB14           41:58 0.1985915 0.002009115 0.0008985037 16.39369 0.03759949 0.01681500 86.42987 0.9092028 0.4066079
+    wt           41:58 0.2533792 0.002537768 0.0011349245 17.67942 0.06860583 0.03068146 70.92771 0.7266602 0.3249723
+    
+     lambda se_lambda lambda_min se_lambda_min        k     se_k    k_min  se_k_min     Slmax   se_Slmax
+  142.63662  44.24771   2.377277     0.7374618 109.2266 25.97587 1.820443 0.4329312 0.1906983 0.09819969
+   89.62661  15.81718   1.493777     0.2636196 121.2167 10.65192 2.020278 0.1775320 0.4465352 0.03579890
 ```
 
 If you want to save the table later, you can also save the output to an R object which will then include the table but not the plots:
 ```yaml
-new_data <- licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:59)))
+new_data <- licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:58)))
 ```
 
 <br />
 
 
-##### **2. Data correction by average leaf area**
-When the leaf is not big enough to fill the entire LI-COR system chamber, gas exchange measurements should be corrected by leaf area. This can be done manually in the excel files or by using the `area_correction` argument of licorvalues. Simply divide the chamber size by the average measured leaf areas (e.g. 2cm<sup>2</sup>/0.8cm<sup>2</sup>=2.5) and add this value to the code:
-```yaml
-licorvalues(identifier = "plantline1")
-```
-
-```
-    genotype transition_zone      gsw      gsw_sd     gsw_se        A
-2 plantline1           41:59 0.250021 0.002745064 0.00122763 17.53368
-
-        A_sd      A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 0.06999676 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
-```
-
-<br />
-<br />
-
-```yaml
-licorvalues(identifier = "plantline1", area_correction = 2.5)
-```
-```
-    genotype transition_zone       gsw      gsw_sd      gsw_se        A
-2 plantline1           41:59 0.6250525 0.006862659 0.003069074 43.83421
-
-       A_sd       A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 0.1749919 0.07825876 71.43659 0.8333434 0.3726825     0.1667535 4.156717
-```
-
-<br />
-
-##### **3. Data normalisation by stomatal density**
+##### **2. Data normalisation by stomatal density**
 It is also possible to normalise your data by stomatal density to show your data on a per stoma basis. For this you need to give the stomatal density [stoma/mm<sup>-2</sup>] to the `stomden` argument. If you specified more than one identifier, you need to input the stomatal density for each identifier
 in the same order as in the `identifier` argument.
 ```yaml
@@ -314,11 +287,14 @@ licorvalues(identifier = "plantline1")
 ```
 
 ```
-    genotype transition_zone      gsw      gsw_sd     gsw_se        A       A_sd
-2 plantline1           41:59 0.250021 0.002745064 0.00122763 17.53368 0.06999676
+  ID transition_zone       gsw      gsw_sd      gsw_se        A       A_sd       A_se     iWUE   iWUE_sd
+  wt           41:58 0.2533792 0.002537768 0.001134924 17.67942 0.06860583 0.03068146 70.92771 0.7266602
 
-       A_se     iWUE   iWUE_sd   iWUE_se rate_constant      T50
-2 0.0313035 71.43659 0.8333434 0.3726825     0.1667535 4.156717
+    iWUE_se   lambda se_lambda lambda_min se_lambda_min        k     se_k    k_min se_k_min     Slmax
+  0.3249723 89.62661  15.81718   1.493777     0.2636196 121.2167 10.65192 2.020278 0.177532 0.4465352
+
+   se_Slmax
+  0.0357989
 ```
 
 <br />
@@ -328,32 +304,26 @@ licorvalues(identifier = "plantline1", stomden = 60)
 ```
 
 ```
-    genotype transition_zone          gsw       gsw_sd      gsw_se            A
-2 plantline1           41:59 4.167016e-06 4.575106e-08 2.04605e-08 0.0002922281
-
-          A_sd        A_se       iWUE      iWUE_sd      iWUE_se rate_constant
-2 1.166613e-06 5.21725e-07 0.00119061 1.388906e-05 6.211375e-06     0.1667535
-
-       T50
-2 4.156717
+  ID transition_zone          gsw       gsw_sd       gsw_se            A        A_sd         A_se        iWUE    iWUE_sd
+  wt           41:58 4.222987e-06 4.229614e-08 1.891541e-08 0.0002946569 1.14343e-06 5.113577e-07 0.001182129 1.2111e-05
+       iWUE_se   lambda se_lambda lambda_min se_lambda_min        k     se_k    k_min  se_k_min        Slmax     se_Slmax
+  5.416205e-06 50.03848  12.55972  0.8339747     0.2093287 149.7999 11.72112 2.496665 0.1953521 5.805185e-06 5.120071e-07
 ```
 
 
 <br />
 
-##### **4. Outlier removal, standard error and standard deviation**
+##### **3. Outlier removal**
 If `remove_outliers = "yes"`, licorvalues will remove outliers from the data based on boxplot outliers of the _A_ (carbon assimilation) column.
 
-Licorvalues outputs a table with standard error and standard deviation values as the default along with plots depicting the data with standard error values. If you set the argument `errorbars = sd`, the plots will show standard deviation and the table will only include standard deviation but not standard error.
 
 
 <br />
 
-##### **5. Colours**
-Per default, plots are depicted in black but you can also customise this by adding a colour palette via the `colours` argument that assigns a colour
-to each identifier.
+##### **4. Colours**
+Per default, plots are depicted in black but you can also customise this by adding a colour palette via the `colours` argument that assigns a colour to each identifier.
 ```yaml
-licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:59), c(61:75)), colours = met.brewer("Derain"))
+licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:58), c(61:75)), colours = met.brewer("Derain"))
 ```
 
 ```
@@ -372,3 +342,25 @@ licorvalues(identifier = c("plantline1", "plantline2"), transition = list(c(41:5
 
 
 ![plotv_5_curves](images/plotv_5_curves.png)
+
+
+
+
+
+##### **5. Different plotting options**
+Licorvalues will usually create a folder called "GraphModel" and further folders within that folder labelled with the specified time frames. These folder contain plots for individual files and averaged plots for each identifier. Within R (Studio), a plot will be displayed in the Plots Viewer panel that shows the plots for each identifier as default (see above plots). If you want this to display the plots for each single file instead, set 'show_individuals =T'.
+
+
+
+
+
+
+
+### References
+<a id="1">[1]</a> 
+McAusland, L., Vialet-Chabrand, S., Davey, P., Baker, N.R., Brendel, O., and Lawson, T. (2016). 
+"Effects of Kinetics of Light-Induced Stomatal Responses on Photosynthesis and Water-Use Efficiency." 
+The New Phytologist 211 (4): 1209–20.
+
+<a id="2">[2]</a>
+Vialet-Chabrand, S., Dreyer, E., and Brendel, O. 2013. “Performance of a New Dynamic Model for Predicting Diurnal Time Courses of Stomatal Conductance at the Leaf Level.” Plant, Cell & Environment 36 (8): 1529–46.
