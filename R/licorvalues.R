@@ -15,9 +15,10 @@ licorvalues <- function(identifier,
                         transition=list("All"),
                         stomden=NULL,
                         label=NULL,
-                        remove_outliers="no",
                         show_individuals=F,
-                        colours=NULL) {
+                        remove_outliers="no",
+                        colours=NULL,
+                        errorbars = "se") {
 
   ##load packages
   if (!require(tidyverse)) install.packages('tidyverse')
@@ -130,6 +131,19 @@ licorvalues <- function(identifier,
           lesslicor<- lesslicor[-which(lesslicor$A %in% outliers),]
         }
       }
+
+      ## calculate means and standard deviation of the physiological values ---------------------------------------------
+      if(!is_empty(stomden)) {
+        ## multiply stomatal density by 1000
+        stomden2 <- densities %>% filter(identifier==i) %>% .[1,2]
+        stomden3 <- stomden2*1000
+
+        ## divide by stomatal density to normalise
+        lesslicor$gsw <- lesslicor$gsw/stomden3
+        lesslicor$A <- lesslicor$A/stomden3
+        lesslicor$WUE <- lesslicor$WUE/stomden3
+      }
+
       licorall <- rbind(licorall, lesslicor)
     }
   }
@@ -149,17 +163,7 @@ licorvalues <- function(identifier,
 
 
 
-  ## calculate means and standard deviation of the physiological values ---------------------------------------------
-  if(!is_empty(stomden)) {
-    ## multiply stomatal density by 1000
-    stomden2 <- densities %>% filter(identifier==i) %>% .[1,2]
-    stomden3 <- stomden2*1000
 
-    ## divide by stomatal density to normalise
-    licorall$gsw <- licorall$gsw/stomden3
-    licorall$A <- licorall$A/stomden3
-    licorall$WUE <- licorall$WUE/stomden3
-  }
 
 
   licorgeno <- suppressMessages(na.omit(licorall %>% group_by(Time, ID, elapsed) %>%
