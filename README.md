@@ -10,6 +10,12 @@ Next, load the package library (this needs to be done every time you restart you
 library(licornetics)
 ```
 
+You can then use the two function included in the package, a short description of them is also available in R by using the following code:
+```yaml
+?licorplots
+?licorvalues
+```
+
 <br /> 
 <br />
 

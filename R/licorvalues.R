@@ -1,6 +1,6 @@
 #' Calculate steady state and kinetics values from Li-COR data.
 #'
-#' Calculate steady state values and kinetics parameters and plot regression curves from data measured using the Li-COR photosystem.
+#' Calculate steady state values and kinetics parameters and plot curves from data measured using the Li-COR photosystem.
 #' @param identifier Keywords that distinguish the Li-COR .xlsx files for the different datasets (e.g. "wt", "mutant1").
 #' @param transition Split your data into different time frames to distinguish between transition phases. Default uses all time points at once. Input as lists (e.g. 'list(c(14:25), c(26:37))')
 #' @param stomden Normalise data by stomatal density (in unit stomata/mm2). Order of input must follow order of identifiers. (e.g. 'c(50, 100, 70)')

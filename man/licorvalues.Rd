@@ -29,7 +29,7 @@ licorvalues(
 \item{colours}{Set colour to be used for each identifier in final plots (e.g. 'c("red", "green")'). Default is black.}
 }
 \description{
-Calculate steady state values and kinetics parameters and plot regression curves from data measured using the Li-COR photosystem.
+Calculate steady state values and kinetics parameters and plot curves from data measured using the Li-COR photosystem.
 }
 \keyword{assimilation}
 \keyword{carbon}
