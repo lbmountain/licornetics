@@ -44,6 +44,10 @@ licorplots <- function(identifier,
     stop("area_correction argument allows only one value.")
   }
 
+  #if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
+  #  stop("plot type input is something other than 'gsw', 'relgsw', 'A', 'WUE', 'Ci' or 'Ca'.")
+  #}
+
   licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA)
   if(!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
     licorall<- data.frame(elapsed=NA, gsw=NA, relgsw=NA, individual=NA, genotype=NA, A=NA, WUE=NA, Ci=NA, Ca=NA, timepoint=NA, extra_col=NA)
@@ -99,11 +103,11 @@ licorplots <- function(identifier,
       lesslicor$timepoint <- as.integer(lesslicor$elapsed/60)
 
       if(!is_empty(timeframe)) {
-        croplicor <- na.omit(lesslicor[which(lesslicor$timepoint %in% timeframe),])
+        croplicor <- lesslicor[which(lesslicor$timepoint %in% timeframe),]
       }
 
       else {
-        croplicor<- na.omit(lesslicor)
+        croplicor<- lesslicor
       }
 
 
@@ -132,7 +136,7 @@ licorplots <- function(identifier,
         }
       }
 
-      licorall<- na.omit(rbind(croplicor, licorall))
+      licorall<- rbind(croplicor, licorall)
     }
   }
 
