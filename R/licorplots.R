@@ -162,6 +162,8 @@ licorplots <- function(identifier,
                                            mean_Ci=mean(Ci), sd_Ci=sd(Ci), se_Ci=sd(Ci)/sqrt(length(na.omit(Ci))),
                                            mean_Ca=mean(Ca), sd_Ca=sd(Ca), se_Ca=sd(Ca)/sqrt(length(na.omit(Ca)))))
 
+  licorgeno <- na.omit(licorgeno)
+
   if (!type %in% c("gsw", "relgsw", "A", "WUE", "Ci", "Ca")) {
     extra_geno <- suppressMessages(licorall %>% group_by(timepoint, genotype) %>%
                                      summarise(mean_extra=mean(extra_col), sd_extra=sd(extra_col),
