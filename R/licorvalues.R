@@ -115,11 +115,13 @@ licorvalues <- function(identifier,
       lesslicor$ID <- i
       lesslicor$Time <- as.integer(lesslicor$elapsed/60)
 
+      lesslicor <- na.omit(lesslicor)
+
       #calculate relative stomatal conductance
-      lesslicor$relgsw<- lesslicor$gsw/max(lesslicor$gsw)
+      lesslicor$relgsw <- lesslicor$gsw/max(lesslicor$gsw)
 
       #calculate water use efficiency (WUE)
-      lesslicor$WUE<- lesslicor$A/lesslicor$gsw
+      lesslicor$WUE <- lesslicor$A/lesslicor$gsw
 
 
 
@@ -160,22 +162,10 @@ licorvalues <- function(identifier,
 
 
 
-
-
-
-
-
-
-  licorgeno <- suppressMessages(na.omit(licorall %>% group_by(Time, ID, elapsed) %>%
-                                          summarise(mean_gsw=mean(gsw), sd_gsw=sd(gsw), se_gsw=sd(gsw)/sqrt(length(na.omit(gsw))),
-                                                    mean_A=mean(A), #sd_A=sd(A), se_A=sd(A)/sqrt(length(na.omit(A))),
-                                                    mean_WUE=mean(WUE))))
-
-
-
-
-
-
+  licorgeno <- suppressMessages(licorall %>% group_by(Time, ID, elapsed) %>%
+                                  summarise(mean_gsw=mean(gsw), sd_gsw=sd(gsw), se_gsw=sd(gsw)/sqrt(length(na.omit(gsw))),
+                                            mean_A=mean(A), #sd_A=sd(A), se_A=sd(A)/sqrt(length(na.omit(A))),
+                                            mean_WUE=mean(WUE)))
 
 
 
@@ -314,7 +304,6 @@ licorvalues <- function(identifier,
 
       ## fit model
       outG <- sig_model(dd$time_sec_new, dd$gsw)
-      #outG <- sig_model(dd$Time, dd$gsw)
 
       fn <- paste0("GraphModel/minutes_", tz[1], "_", last(tz), "/", f, ".png")
 
@@ -340,14 +329,12 @@ licorvalues <- function(identifier,
           labs(x="Time [s]", y= "Absolute *g*<sub>SW</sub> [mol m<sup>-2</sup> s<sup>-1</sup>]")
       }
 
-
       png(fn)
       print(indi_plot)
       dev.off()
 
       new_indi <- list(indi_plot)
       plots_individuals <- c(plots_individuals, new_indi)
-
 
       ## calculate Slmax
       SlG <- 1 / outG$par[4] * (outG$par[2] - outG$par[1]) / exp(1) * 1000 # in mmol m-2 s-2
@@ -362,8 +349,6 @@ licorvalues <- function(identifier,
     }
 
     plots_final_individuals <- c(plots_final_individuals, plots_individuals)
-
-
 
 
 
@@ -393,14 +378,15 @@ licorvalues <- function(identifier,
       outG <- sig_model(dd$time_sec_new, dd$mean_gsw)
 
 
-
       ## plot
       fn <- paste0("GraphModel/minutes_", tz[1], "_", last(tz), "/", i, ".png")
 
       plotcolour <- datalabels %>% filter(identifier== i[1]) %>% .[1,3]
       plotlabel <- datalabels %>% filter(identifier==i[1]) %>% .[1,2]
 
+
       dd$fitted_values <- sig_model_predict(dd$time_sec_new, outG$par)
+
 
       if(is_empty(stomden)) {
         ident_plot <- ggplot(dd, mapping=aes(x = time_sec_new, y = mean_gsw))+

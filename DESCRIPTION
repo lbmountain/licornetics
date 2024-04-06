@@ -1,7 +1,7 @@
 Package: licornetics
 Type: Package
 Title: Plot and calculate physiological parameters using LI-COR data
-Version: 2.1.1
+Version: 2.1.2
 Year: 2023
 Author: Lea S. Berg
 Maintainer: Lea S. Berg <miss.lb.mountain@gmail.com>

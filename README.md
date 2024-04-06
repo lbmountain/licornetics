@@ -1,5 +1,5 @@
 ### How to download and install the package in R or R Studio
-You can install the most recent version (v2.1.1) of licornetics from github with the following code:
+You can install the most recent version (v2.1.2) of licornetics from github with the following code:
 ```yaml
 if (!require(devtools)) install.packages('devtools')
 devtools::install_github("lbmountain/licornetics")
